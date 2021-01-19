@@ -1,10 +1,10 @@
-sentence(僕がべそをかいた).
-type(僕が,elem).
-role(僕が,動作主).
-main(僕が,僕).
+sentence(僕はべそをかいた).
+type(僕は,elem).
+role(僕は,動作主).
+main(僕は,僕).
 class(僕,名詞).
-part(僕が,が).
-class(が,助詞).
+part(僕は,は).
+class(は,助詞).
 type(べそを,elem).
 role(べそを,対象).
 main(べそを,べそ).

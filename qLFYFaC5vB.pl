@@ -1,0 +1,24 @@
+sentence(僕はべそをかいた).
+type(僕は,elem).
+role(僕は,動作主).
+main(僕は,僕).
+class(僕,名詞).
+part(僕は,は).
+class(は,助詞).
+type(べそを,elem).
+role(べそを,対象).
+main(べそを,べそ).
+class(べそ,名詞).
+part(べそを,を).
+class(を,助詞).
+type(かいた,verb).
+semantic(状態変化あり).
+semantic(対象の変化).
+semantic(物理的変化).
+semantic(形状（その他）).
+semantic(耕す).
+main(かいた,かく).
+class(かく,動詞).
+part(かいた,た).
+class(た,助動詞).
+author(_author,_work):-  semantic(生成),type(X0,verb),(  main(X0,書く);  main(X0,描く)),role(X1,動作主),main(X1,_author),role(X2,対象),main(X2,_work).

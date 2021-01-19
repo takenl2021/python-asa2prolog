@@ -64,9 +64,15 @@ async def main(query, text):
         sys.stdout = f
         consult = prolog.consult(new_file_name)
         answer = list(prolog.query(queryy))
-        answer[0]["prolog_tree"] = "\n".join(a2p) + "\n" + query
         sys.stdout = sys.__stdout__
-    datas = my_split(text, list(answer[0].values()))
-    answer[0]["datas"] = datas
+    try:
+        datas = my_split(text, list(answer[0].values()))
+        res_data = answer[0]
+        res_data["datas"] = datas
+        res_data["prolog_tree"] = "\n".join(a2p) + "\n" + query
+    except:
+        datas = [{'data': text, 'color': "black"}]
+        res_data = {'datas': datas}
+        res_data["prolog_tree"] = ""
     os.remove("./"+new_file_name)
-    return answer[0]
+    return res_data
