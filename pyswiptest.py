@@ -32,20 +32,22 @@ if __name__ == "__main__":
         a2p = a2p_converter.convert(inp[i])
 
         new_file_name = randomname(10) + ".pl"
-        print(new_file_name)
         with open(new_file_name, mode="w") as f:
             f.write("\n".join(a2p) + "\n" + query)
 
+        anslist = []
         with io.StringIO() as f:
             sys.stdout = f
             consult = prolog.consult(new_file_name)
             answer = list(prolog.query(queryy))
             sys.stdout = sys.__stdout__
-        # if len(answer) != 0:
-        #     print("<文章{}>".format(str(i)), "\033[31m", inp[i], "\033[0m")
-        #     print("-[結果] パタンに一致しました")
-        #     print(answer[0]["X"]+" , "+answer[0]["Y"])
-        #     print("")
-        os.remove("./"+new_file_name)
+            anslist.append(answer)
+        if len(answer) != 0:
+            print("<文章{}>".format(str(i)), "\033[31m", inp[i], "\033[0m")
+            print("-[結果] パタンに一致しました")
+            print(answer[0]["X"]+" , "+answer[0]["Y"])
+            print("")
+        # os.remove("./"+new_file_name)
     end = time()
+    print(anslist)
     print("-[実行時間]", end - start, "秒")

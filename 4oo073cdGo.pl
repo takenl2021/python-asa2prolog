@@ -1,0 +1,26 @@
+sentence(有川浩が図書館戦争を書いた).
+type(有川浩が,elem).
+role(有川浩が,動作主).
+main(有川浩が,有川浩).
+class(有川浩,名詞).
+class(有川浩,名詞).
+part(有川浩が,が).
+class(が,助詞).
+type(図書館戦争を,elem).
+role(図書館戦争を,対象).
+main(図書館戦争を,図書館戦争).
+class(図書館戦争,名詞).
+class(図書館戦争,名詞).
+part(図書館戦争を,を).
+class(を,助詞).
+type(書いた,verb).
+semantic(状態変化あり).
+semantic(生成or消滅).
+semantic(生成（物理）).
+semantic(生成).
+semantic().
+main(書いた,書く).
+class(書く,動詞).
+part(書いた,た).
+class(た,助動詞).
+author(_author,_work):-  semantic(生成),type(X0,verb),(  main(X0,書く);  main(X0,描く)),role(X1,動作主),main(X1,_author),role(X2,対象),main(X2,_work).

@@ -16,6 +16,17 @@ def randomname(n):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
 
+def my_split(str_, split_list):
+    re_splits = []
+    for spl in split_list:
+        re_splits.append("({})".format(spl))
+    presult = re.split("|".join(re_splits), str_)  # 区切り文字を含めたリストができる。
+    result = [pr for pr in presult if pr != None and pr != '']  # None と 空文字を削除
+    res_arr = [{'data': r, 'color': "red"} if r in split_list else {
+        'data': r, 'color': "black"} for r in result]
+    return res_arr
+
+
 app = FastAPI()
 
 origins = [
@@ -53,6 +64,9 @@ async def main(query, text):
         sys.stdout = f
         consult = prolog.consult(new_file_name)
         answer = list(prolog.query(queryy))
+        answer[0]["prolog_tree"] = "\n".join(a2p) + "\n" + query
         sys.stdout = sys.__stdout__
+    datas = my_split(text, list(answer[0].values()))
+    answer[0]["datas"] = datas
     os.remove("./"+new_file_name)
-    return answer
+    return answer[0]
