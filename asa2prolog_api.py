@@ -29,13 +29,7 @@ def my_split(str_, split_list):
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-    "localhost",
-    "http://localhost"
-    # "https://demo-sip7map.datacradle.jp/tile/styles/basic/*.png"
-
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
