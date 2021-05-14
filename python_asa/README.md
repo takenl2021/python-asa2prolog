@@ -1,7 +1,10 @@
-# python_asa
+# python_asa_original
+
+(English description of the programme follows Japanese)
+
+# `python_asa`
 
 python版日本語意味役割付与システム（ASA）
-(English description of the programme follows Japanese)
 
 ## 動作環境
 
@@ -10,11 +13,9 @@ python版日本語意味役割付与システム（ASA）
 - cabochaのダウンロード https://taku910.github.io/cabocha/
 
 ## インストール
+```git clone {url} ```
 
-```
-git clone {url}
-pip install -e python_asa
-```
+```pip install -e python_asa```
 
 ## 使用方法
 ```cd asapy```でディレクトリを移動し、
