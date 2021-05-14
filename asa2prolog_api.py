@@ -68,5 +68,5 @@ async def main(query, text):
         datas = [{'data': text, 'color': "black"}]
         res_data = {'datas': datas}
         res_data["prolog_tree"] = ""
-    os.remove("./"+new_file_name)
+    #os.remove("./"+new_file_name)
     return res_data
