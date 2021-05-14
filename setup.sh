@@ -1,4 +1,4 @@
-cd ASA2Prolog/
+cd python_asa/
 pip install -e .
 cd ../
 git clone https://github.com/yuce/pyswip.git
