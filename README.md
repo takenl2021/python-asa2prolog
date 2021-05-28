@@ -1,10 +1,18 @@
 # python-asa2prolog
 
-## INSTALL
+python 3.6.8
+
+## USE IN LOCAL
 
 ```
 sh setup.sh
 python pyswiptest.py test.txt
+```
+
+## USE IN DOCKER
+
+```
+docker compose up --build
 ```
 
 ## CAUTION
