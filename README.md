@@ -1,20 +1,22 @@
 # python-asa2prolog
 
-python 3.6.8
+- python 3.6.8
+- SWI-prolog
+  - for pyswip
+- Cabocha
+  - Need mecab
 
 ## USE IN LOCAL
 
 ```
 sh setup.sh
-python pyswiptest.py test.txt
-python asa2prolog_api.py
 ```
 
 ## USE IN DOCKER
 
 ```
 docker compose up --build
-docker exec -i -t python3.6.8-ASA bash
+docker exec -i -t ASA bash
 ```
 
 ### システム立ち上げ時
