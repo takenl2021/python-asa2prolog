@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pyswip import Prolog
 from converter import AsaToPrologConverter
-from asapy.ASA import ASA
+from python_asa.asapy.ASA import ASA
 from time import sleep, time
 import os
 import io
