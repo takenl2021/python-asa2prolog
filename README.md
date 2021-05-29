@@ -15,7 +15,25 @@ python asa2prolog_api.py
 ```
 docker compose up --build
 docker exec -i -t python3.6.8-ASA bash
-$ sh setup.sh
+```
+
+### システム立ち上げ時
+
+```
+$ uvicorn asa2prolog_api:app --port 5000
+```
+
+### pyswiptest.py 使用時
+
+```
+$ python pyswiptest.py test.txt
+```
+
+### python_asa使用時
+
+```
+$ cd python_asa/asapy
+$ python main.py
 ```
 
 ## CAUTION
