@@ -22,7 +22,7 @@ docker exec -i -t ASA bash
 ### システム立ち上げ時
 
 ```
-$ uvicorn asa2prolog_api:app --port 5000
+$ uvicorn asa2prolog_api:app --port 5000 --host 0.0.0.0
 ```
 
 ### pyswiptest.py 使用時
