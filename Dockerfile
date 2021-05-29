@@ -17,6 +17,7 @@ RUN tar zxvf CRF++-0.58.tar.gz \
     && make \
     && make install
 
+RUN echo "/usr/local/lib" >> /etc/ld.so.conf && /sbin/ldconfig
 RUN DOWNLOAD_URL="https://drive.google.com`curl -c cookies.txt \
        'https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7SDd1Q1dUQkZQaUU' \
        | sed -r 's/"/\n/g' |grep id=0B4y35FiV1wh7SDd1Q1dUQkZQaUU |grep confirm |sed 's/&amp;/\&/g'`" \
@@ -29,6 +30,6 @@ RUN DOWNLOAD_URL="https://drive.google.com`curl -c cookies.txt \
     && cd python \
     && python setup.py build \
     && python setup.py install
-RUN echo "/usr/local/lib" >> /etc/ld.so.conf && /sbin/ldconfig
+RUN /sbin/ldconfig
 ADD setup.sh ./setup.sh
 RUN sh setup.sh
