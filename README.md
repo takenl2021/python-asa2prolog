@@ -7,12 +7,15 @@ python 3.6.8
 ```
 sh setup.sh
 python pyswiptest.py test.txt
+python asa2prolog_api.py
 ```
 
 ## USE IN DOCKER
 
 ```
 docker compose up --build
+docker exec -i -t python3.6.8-ASA bash
+$ sh setup.sh
 ```
 
 ## CAUTION
