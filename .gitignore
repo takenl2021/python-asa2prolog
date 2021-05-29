@@ -3,3 +3,5 @@ pyswip/
 *.pl
 python_asa/
 .cache
+README.html
+README.pdf
