@@ -3,6 +3,7 @@
 - python 3.6.8
 - SWI-prolog
   - for pyswip
+  - https://pypi.org/project/pyswip/
 - Cabocha
   - Need mecab
 
@@ -42,3 +43,4 @@ $ python main.py
 - コマンドライン引数でテキストファイルを指定すればファイルからテキスト読み込み，解析が可能です．
 - あくまでテスト用ということで簡易的に実装しています．
 - 改行が入るとうまく動かない場合があるので改良中です．
+- 同ディレクトリしか読み込めなさそう
