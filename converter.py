@@ -122,7 +122,6 @@ class AsaToPrologConverter():
                 buf.append(write_role(ids[id]["phrase"], ids[id]["semrole"].split("（")[0]))
 
             for separate in ["main","part"]:
-                print(separate)
                 if separate == "main" and ("main" in ids[id]):
                     buf.append(write_main(ids[id]["phrase"], ids[id]["main"]))
                     for morpheme in ids[id]["morphemes"]:

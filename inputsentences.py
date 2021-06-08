@@ -22,7 +22,7 @@ if __name__ == "__main__":
     # inputs to file
     for i in range(len(inputs)-1):
         sentence = inputs[i]
-        print("<文章{}>".format(str(i)), "\033[31m", sentence, "\033[0m")
+        # print("<文章{}>".format(str(i)), "\033[31m", sentence, "\033[0m")
         
         new_file_name = "plfiles/"+ datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f') + ".pl"
 
@@ -30,7 +30,8 @@ if __name__ == "__main__":
         with open(new_file_name, mode="w") as f:
             converted_list = asa_2_prolog_converter.convert(re.sub('[\，\、]','',sentence))
             # https://www.swi-prolog.org/pldoc/man?predicate=style_check/1
-            f.write(":-style_check(-discontiguous).\n") # dicontiguous warningの無視
+            f.write("style_check(-discontiguous).\n") # dicontiguous warningの無視
+            # f.write(":- multifile sentence/1, type/2, role/2, main/2, class/2, part/2, semantic/1.\n")
             f.write("\n".join(converted_list) + "\n")
     print("Saved. Total ",i+1,"files")
 
