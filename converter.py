@@ -30,7 +30,7 @@ def write_sentence(sentence):
 
 
 def write_semantic(semantic):
-    return "semantic(" + semantic + ")."
+    return "semantic(" + semantic.replace("・", "or").replace("（","_").replace("）","_").replace("／","/") + ")."
 
 
 def write_phrase(phrase):
@@ -104,32 +104,35 @@ class AsaToPrologConverter():
         dictionary = self.get_dictionary(analyze_result)
         buf = []
         ids = []
-        
+
         buf.append(write_sentence(dictionary["sentence"]))
 
         for idcount in range(len(dictionary)-1):
             ids.append(dictionary["ID{}".format(str(idcount))])
 
-        for i in range(len(ids)):
-            buf.append(write_type(ids[i]["phrase"], ids[i]["type"]))
-            if "semantic" in ids[i]:
-                for sems in ids[i]["semantic"].split("-"):
-                    buf.append(write_semantic(sems.replace("・", "or")))
 
-            if "semrole" in ids[i]:
-                buf.append(write_role(ids[i]["phrase"], ids[i]["semrole"].split("（")[0]))
+        for id in range(len(ids)):
+            buf.append(write_type(ids[id]["phrase"], ids[id]["type"]))
+            if "semantic" in ids[id]:
+                for sems in ids[id]["semantic"].split("-"):
+                    if len(sems) > 0:
+                        buf.append(write_semantic(sems))
 
-            for ii in range(2):
-                if ii == 0 and ("main" in ids[i]):
-                    buf.append(write_main(ids[i]["phrase"], ids[i]["main"]))
-                    for iii in range(len(ids[i]["morphemes"])):
-                        if ids[i]["morphemes"][iii][3] in ids[i]["main"]:
-                            buf.append(write_class(ids[i]["main"], ids[i]["morphemes"][iii][4]))
+            if "semrole" in ids[id]:
+                buf.append(write_role(ids[id]["phrase"], ids[id]["semrole"].split("（")[0]))
 
-                if ii == 1 and ("part" in ids[i]):
-                    buf.append(write_part(ids[i]["phrase"], ids[i]["part"]))
-                    for iii in range(len(ids[i]["morphemes"])):
-                        if ids[i]["morphemes"][iii][3] in ids[i]["part"]:
-                            buf.append(write_class(ids[i]["part"], ids[i]["morphemes"][iii][4]))
+            for separate in ["main","part"]:
+                print(separate)
+                if separate == "main" and ("main" in ids[id]):
+                    buf.append(write_main(ids[id]["phrase"], ids[id]["main"]))
+                    for morpheme in ids[id]["morphemes"]:
+                        if morpheme[3] in ids[id]["main"]:
+                            buf.append(write_class(morpheme[3], morpheme[4]))
+
+                if separate == "part" and ("part" in ids[id]):
+                    buf.append(write_part(ids[id]["phrase"], ids[id]["part"]))
+                    for morpheme in ids[id]["morphemes"]:
+                        if morpheme[3] in ids[id]["part"]:
+                            buf.append(write_class(morpheme[3], morpheme[4]))
 
         return buf

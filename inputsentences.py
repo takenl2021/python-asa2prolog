@@ -3,7 +3,7 @@ from python_asa.asapy.ASA import ASA
 from time import time
 import sys
 import re
-
+import datetime
 
 if __name__ == "__main__":
     asa = ASA()  # ASAのインスタンス化
@@ -16,7 +16,7 @@ if __name__ == "__main__":
     with open(filename, "r") as f:
         raw_text = f.read().replace('\n','')
     
-    inputs = re.split('[\.\!\?\。\！\？\「\」]', raw_text)  # 句読点等でsplit
+    inputs = re.split('[\.\!\?\。\！\？\「\」\．]', raw_text)  # 句読点等でsplit
     start_time = time()
 
     # inputs to file
@@ -24,11 +24,13 @@ if __name__ == "__main__":
         sentence = inputs[i]
         print("<文章{}>".format(str(i)), "\033[31m", sentence, "\033[0m")
         
-        new_file_name = "plfiles/"+genRandomName(10) + ".pl"
+        new_file_name = "plfiles/"+ datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f') + ".pl"
 
         # ファイルへ保存
         with open(new_file_name, mode="w") as f:
-            converted_list = asa_2_prolog_converter.convert(sentence)
+            converted_list = asa_2_prolog_converter.convert(re.sub('[\，\、]','',sentence))
+            # https://www.swi-prolog.org/pldoc/man?predicate=style_check/1
+            f.write(":-style_check(-discontiguous).\n") # dicontiguous warningの無視
             f.write("\n".join(converted_list) + "\n")
     print("Saved. Total ",i+1,"files")
 
