@@ -10,7 +10,7 @@ if __name__ == "__main__":
     asa_2_prolog_converter = AsaToPrologConverter(asa) # ASAtoPrologコンバータのコンストラクタにASAのインスタンスを渡す
 
     # CL引数から日本語テキストのfilename取得 
-    # e.g.) python pyswiptest.py test.txt => text.txt
+    # e.g.) python inputsentences.py test.txt => text.txt
     filename = str(sys.argv[1])
     
     with open(filename, "r") as f:
@@ -31,7 +31,6 @@ if __name__ == "__main__":
             converted_list = asa_2_prolog_converter.convert(re.sub('[\，\、]','',sentence))
             # https://www.swi-prolog.org/pldoc/man?predicate=style_check/1
             f.write("style_check(-discontiguous).\n") # dicontiguous warningの無視
-            # f.write(":- multifile sentence/1, type/2, role/2, main/2, class/2, part/2, semantic/1.\n")
             f.write("\n".join(converted_list) + "\n")
     print("Saved. Total ",i+1,"files")
 

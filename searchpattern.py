@@ -18,8 +18,8 @@ if __name__ == "__main__":
         pattern = "class(X,名詞)"
         lines = open(path+file_name,"r").readlines()
         # prologインスタンスはシングルトンであるため，
-        # consultからの静的読み込みだとプログラムが終了するまで内部のデータに蓄積されていく．
-        # 
+        # consultからの静的読み込みだと上書きされましたよっていう警告が出てくる．
+        # なので動的読み込みで１文ずつ行う
         for line in lines:
             prolog.assertz(line.replace('\n','').replace('.',''))
         
