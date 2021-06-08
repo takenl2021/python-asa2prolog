@@ -17,7 +17,6 @@ if __name__ == "__main__":
         raw_text = f.read().replace('\n','')
     
     inputs = re.split('[\.\!\?\。\！\？\「\」]', raw_text)  # 句読点等でsplit
-    generate_query = 'author(_author,_work):-semantic(生成),type(X0,verb),(main(X0,書く);main(X0,描く)),role(X1,動作主),main(X1,_author),role(X2,対象),main(X2,_work).'
     start_time = time()
 
     # inputs to file
@@ -34,6 +33,6 @@ if __name__ == "__main__":
     print("Saved. Total ",i+1,"files")
 
     end_time = time()
-    print("-[実行時間]", end_time - start_time, "秒","\n")
+    print("[実行時間]", end_time - start_time, "秒","\n")
 
 # semantics(生成（物理）)　の　（）がエラー
