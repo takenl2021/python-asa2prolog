@@ -1,8 +1,25 @@
-import os
 import sys
 import io
 import re
+import random
+import string
 
+def mySplit(str_, split_list):
+    re_splits = []
+    for spl in split_list:
+        re_splits.append("({})".format(spl))
+    presult = re.split("|".join(re_splits), str_)  # 区切り文字を含めたリストができる。
+    result = [pr for pr in presult if pr != None and pr != '']  # None と 空文字を削除
+    
+    res_arr = [{'data': r, 'color': "red"} 
+    if r in split_list 
+    else {'data': r, 'color': "black"} 
+    for r in result]
+
+    return res_arr
+
+def genRandomName(n):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
 def mystrip(str):
     return str.strip()
@@ -13,7 +30,7 @@ def write_sentence(sentence):
 
 
 def write_semantic(semantic):
-    return "semantic(" + semantic + ")."
+    return "semantic(" + semantic.replace("・", "or").replace("（","_").replace("）","_").replace("／","/") + ")."
 
 
 def write_phrase(phrase):
@@ -65,8 +82,7 @@ class AsaToPrologConverter():
         return result
 
     def get_dictionary(self, analyze_result):
-        sentence = re.split("ID: \d ", analyze_result)[
-            0].split("sentence: ")[1].strip()
+        sentence = re.split("ID: \d ", analyze_result)[0].split("sentence: ")[1].strip()
         IDlist = re.split("ID: \d ", analyze_result)[1:]
         result_dict = {}
         result_dict["sentence"] = sentence
@@ -74,52 +90,48 @@ class AsaToPrologConverter():
             semantic_dict = {}
             phrase = IDlist[i].split("\n\t\t")[0].split("\n\t")[0]
             semantics = IDlist[i].split("\n\t\t")[0].split("\n\t")[1:]
-            semantic_key = [semantics[sc].split(
-                ": ")[0] for sc in range(len(semantics))]
-            semantic_value = [semantics[sc].split(
-                ": ")[1] for sc in range(len(semantics))]
+            semantic_key = [semantics[sc].split(": ")[0] for sc in range(len(semantics))]
+            semantic_value = [semantics[sc].split(": ")[1] for sc in range(len(semantics))]
             morphemes = IDlist[i].split("\n\t\t")[1:]
-            semantic_dict = {key: value for (key, value) in zip(
-                semantic_key, semantic_value)}
+            semantic_dict = {key: value for (key, value) in zip(semantic_key, semantic_value)}
             semantic_dict["phrase"] = phrase
-            semantic_dict["morphemes"] = [list(map(mystrip, re.split(
-                '\t+|,', morphemes[mc]))) for mc in range(len(morphemes))]
+            semantic_dict["morphemes"] = [list(map(mystrip, re.split('\t+|,', morphemes[mc]))) for mc in range(len(morphemes))]
             result_dict["ID{}".format(str(i))] = semantic_dict
         return result_dict
 
     def convert(self, input_string):
         analyze_result = self.analyze(input_string)
-        dc = self.get_dictionary(analyze_result)
+        dictionary = self.get_dictionary(analyze_result)
         buf = []
         ids = []
-        buf.append(write_sentence(dc["sentence"]))
 
-        for idcount in range(len(dc)-1):
-            ids.append(dc["ID{}".format(str(idcount))])
+        buf.append(write_sentence(dictionary["sentence"]))
 
-        for i in range(len(ids)):
-            buf.append(write_type(ids[i]["phrase"], ids[i]["type"]))
-            if "semantic" in ids[i]:
-                for sems in ids[i]["semantic"].split("-"):
-                    buf.append(write_semantic(sems.replace("・", "or")))
+        for idcount in range(len(dictionary)-1):
+            ids.append(dictionary["ID{}".format(str(idcount))])
 
-            if "semrole" in ids[i]:
-                buf.append(write_role(
-                    ids[i]["phrase"], ids[i]["semrole"].split("（")[0]))
 
-            for ii in range(2):
-                if ii == 0 and ("main" in ids[i]):
-                    buf.append(write_main(ids[i]["phrase"], ids[i]["main"]))
-                    for iii in range(len(ids[i]["morphemes"])):
-                        if ids[i]["morphemes"][iii][3] in ids[i]["main"]:
-                            buf.append(write_class(
-                                ids[i]["main"], ids[i]["morphemes"][iii][4]))
+        for id in range(len(ids)):
+            buf.append(write_type(ids[id]["phrase"], ids[id]["type"]))
+            if "semantic" in ids[id]:
+                for sems in ids[id]["semantic"].split("-"):
+                    if len(sems) > 0:
+                        buf.append(write_semantic(sems))
 
-                if ii == 1 and ("part" in ids[i]):
-                    buf.append(write_part(ids[i]["phrase"], ids[i]["part"]))
-                    for iii in range(len(ids[i]["morphemes"])):
-                        if ids[i]["morphemes"][iii][3] in ids[i]["part"]:
-                            buf.append(write_class(
-                                ids[i]["part"], ids[i]["morphemes"][iii][4]))
+            if "semrole" in ids[id]:
+                buf.append(write_role(ids[id]["phrase"], ids[id]["semrole"].split("（")[0]))
+
+            for separate in ["main","part"]:
+                if separate == "main" and ("main" in ids[id]):
+                    buf.append(write_main(ids[id]["phrase"], ids[id]["main"]))
+                    for morpheme in ids[id]["morphemes"]:
+                        if morpheme[3] in ids[id]["main"]:
+                            buf.append(write_class(morpheme[3], morpheme[4]))
+
+                if separate == "part" and ("part" in ids[id]):
+                    buf.append(write_part(ids[id]["phrase"], ids[id]["part"]))
+                    for morpheme in ids[id]["morphemes"]:
+                        if morpheme[3] in ids[id]["part"]:
+                            buf.append(write_class(morpheme[3], morpheme[4]))
 
         return buf
