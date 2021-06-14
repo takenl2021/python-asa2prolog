@@ -1,11 +1,13 @@
-from fastapi import FastAPI, Request, File, UploadFile, Form
+from fastapi import FastAPI, File, UploadFile, Form
 from starlette.middleware.cors import CORSMiddleware
 from pyswip import Prolog
 from converter import AsaToPrologConverter, mySplit, genRandomName
 from python_asa.asapy.ASA import ASA
 from inputsentences import genpl
+from searchpattern import search
 import io
 import sys
+import re
 
 
 app = FastAPI()
@@ -27,6 +29,12 @@ async def setencesFileSave(file: UploadFile = File(...)):
         file_object.write(file.file.read())
     pl = genpl(path)
     return {"status":path, "result":pl}
+
+@app.post('/post/search')
+async def searchQuery(query: str = Form(...)):
+    splited = re.split(':-',query)
+    result = search(splited[0],query)
+    return {"result":result, "a":query, "b":splited[0]}
 
 @app.get('/')
 async def main(query, text):

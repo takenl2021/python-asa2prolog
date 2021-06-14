@@ -2,7 +2,7 @@ from time import time
 import os
 from pyswip import Prolog
 
-if __name__ == "__main__":
+def search(pattern,define_query):
     answers_list = []
     start_time = time()
 
@@ -14,15 +14,13 @@ if __name__ == "__main__":
     prolog = Prolog()  # Prologのインスタンス化
     
     for file_name in file_name_list:
-        # pattern = "semantic(生成),type(X0,verb),(main(X0,書く);main(X0,描く)),role(X1,動作主),main(X1,_author),role(X2,対象),main(X2,_work)"
-        pattern = "class(X,名詞)"
         lines = open(path+file_name,"r").readlines()
         # prologインスタンスはシングルトンであるため，
         # consultからの静的読み込みだと上書きされましたよっていう警告が出てくる．
         # なので動的読み込みで１文ずつ行う
         for line in lines:
             prolog.assertz(line.replace('\n','').replace('.',''))
-        
+        prolog.assertz(define_query)
         answer = list(prolog.query(pattern))
         
         prolog.retractall("sentence(_)")
@@ -35,12 +33,18 @@ if __name__ == "__main__":
 
         answers_list.append(answer)
         
-        if len(answer) > 0:
-            print("\033[31m", "一致しました", "\033[0m","-",answer,"\n")
-        else:
-            print("\033[31m", "一致するものはありませんでした", "\033[0m","\n")
+        # if len(answer) > 0:
+        #     print("\033[31m", "一致しました", "\033[0m","-",answer,"\n")
+        # else:
+        #     print("\033[31m", "一致するものはありませんでした", "\033[0m","\n")
 
     end_time = time()
-    
-    print(answers_list)
-    print("[実行時間]", end_time - start_time, "秒","\n")
+    return {"answers":answers_list, "time":end_time - start_time}
+
+if __name__ == "__main__":
+    # pattern = "semantic(生成),type(X0,verb),(main(X0,書く);main(X0,描く)),role(X1,動作主),main(X1,_author),role(X2,対象),main(X2,_work)"
+    define_query = "author(_author,_work):-  semantic(生成),type(X0,verb),(main(X0,書く);main(X0,描く)),role(X1,動作主),main(X1,_author),role(X2,対象),main(X2,_work)"
+    # pattern = "class(X,名詞)"
+    pattern = "author(_author,_work)"
+    result = search(pattern, define_query)
+    print(result)
