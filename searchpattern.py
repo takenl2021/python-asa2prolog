@@ -2,7 +2,7 @@ from time import time
 import os
 from pyswip import Prolog
 
-def search(pattern,define_query):
+def search(pattern,define_query, prolog):
     answers_list = []
     start_time = time()
 
@@ -11,18 +11,17 @@ def search(pattern,define_query):
     files = os.listdir(path)
     file_name_list = [f for f in files if os.path.isfile(os.path.join(path, f))]
 
-    prolog = Prolog()  # Prologのインスタンス化
-    
     for file_name in file_name_list:
+        prolog.assertz(define_query)
         lines = open(path+file_name,"r").readlines()
         # prologインスタンスはシングルトンであるため，
         # consultからの静的読み込みだと上書きされましたよっていう警告が出てくる．
         # なので動的読み込みで１文ずつ行う
         for line in lines:
             prolog.assertz(line.replace('\n','').replace('.',''))
-        prolog.assertz(define_query)
         answer = list(prolog.query(pattern))
         
+        prolog.retractall(pattern)
         prolog.retractall("sentence(_)")
         prolog.retractall("main(_,_)")
         prolog.retractall("type(_,_)")
@@ -46,5 +45,5 @@ if __name__ == "__main__":
     define_query = "author(_author,_work):-  semantic(生成),type(X0,verb),(main(X0,書く);main(X0,描く)),role(X1,動作主),main(X1,_author),role(X2,対象),main(X2,_work)"
     # pattern = "class(X,名詞)"
     pattern = "author(_author,_work)"
-    result = search(pattern, define_query)
+    result = search(pattern, define_query, Prolog())
     print(result)

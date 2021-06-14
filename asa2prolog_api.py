@@ -8,7 +8,8 @@ from searchpattern import search
 import io
 import sys
 import re
-
+from pyswip import Prolog
+# ReactのRUNを押すたびに増えていってしまう．
 
 app = FastAPI()
 
@@ -32,9 +33,11 @@ async def setencesFileSave(file: UploadFile = File(...)):
 
 @app.post('/post/search')
 async def searchQuery(query: str = Form(...)):
+    result = []
     splited = re.split(':-',query)
-    result = search(splited[0],query)
-    return {"result":result, "a":query, "b":splited[0]}
+    print(splited[0],query, Prolog())
+    result = search(splited[0],query,Prolog())
+    return {"result":result, "define_query":query, "object_query":splited[0]}
 
 @app.get('/')
 async def main(query, text):
@@ -49,7 +52,7 @@ async def main(query, text):
 
     object_query = input_query.split(":")[0]
     a2p = asa_2_prolog_converter.convert(input_text)
-    new_file_name = genRandomName(10) + ".pl"
+    new_file_name = "plfiles/"+genRandomName(10) + ".pl"
 
     with open(new_file_name, mode="w") as f:
         f.write("\n".join(a2p) + "\n" + query)
