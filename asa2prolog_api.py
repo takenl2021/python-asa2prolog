@@ -1,19 +1,18 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, Request, File, UploadFile, Form
+from starlette.middleware.cors import CORSMiddleware
 from pyswip import Prolog
 from converter import AsaToPrologConverter, mySplit, genRandomName
 from python_asa.asapy.ASA import ASA
+from inputsentences import genpl
 import io
 import sys
 
 
 app = FastAPI()
 
-origins = ["*"]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -21,6 +20,13 @@ app.add_middleware(
 
 asa = ASA()
 
+@app.post('/post/sentencesFile/save')
+async def setencesFileSave(file: UploadFile = File(...)):
+    path = "./uploads/"+file.filename
+    with open(path, "wb+") as file_object:
+        file_object.write(file.file.read())
+    pl = genpl(path)
+    return {"status":path, "result":pl}
 
 @app.get('/')
 async def main(query, text):
@@ -37,7 +43,7 @@ async def main(query, text):
     a2p = asa_2_prolog_converter.convert(input_text)
     new_file_name = genRandomName(10) + ".pl"
 
-    with open("./plfiles/"+new_file_name, mode="w") as f:
+    with open(new_file_name, mode="w") as f:
         f.write("\n".join(a2p) + "\n" + query)
 
     with io.StringIO() as f:
