@@ -8,7 +8,7 @@ RUN wget http://www.swi-prolog.org/download/devel/src/swipl-7.5.11.tar.gz \
     && cd ../.. && rm -rf swipl-7.5.11.tar.gz swipl-7.5.11
 
 RUN apt update && apt-get install -y mecab libmecab-dev mecab-ipadic mecab-ipadic-utf8
-RUN pip install mecab-python3 pyswip fastapi uvicorn
+RUN pip install mecab-python3 pyswip fastapi uvicorn python-multipart
 
 COPY CRF++-0.58.tar.gz /usr/app/CRF++-0.58.tar.gz
 RUN tar zxvf CRF++-0.58.tar.gz \
