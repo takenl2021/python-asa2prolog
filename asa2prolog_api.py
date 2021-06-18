@@ -8,6 +8,8 @@ from searchpattern import search
 import io
 import sys
 import re
+import glob
+import os
 from pyswip import Prolog
 # ReactのRUNを押すたびに増えていってしまう．
 
@@ -22,6 +24,21 @@ app.add_middleware(
 )
 
 asa = ASA()
+@app.post('/post/plfiles/delete')
+async def plfilesDelete():
+    try:
+        files = glob.glob("plfiles/*")
+        for file in files:
+            os.remove(file)
+        return {"status":"success"}
+    except:
+        return {"status":"error"}
+
+@app.get('/get/plfiles/index')
+async def plfilesIndex():
+    files = glob.glob("plfiles/*")
+    return {"status":"success","files":files}
+
 
 @app.post('/post/sentencesFile/save')
 async def setencesFileSave(file: UploadFile = File(...)):
