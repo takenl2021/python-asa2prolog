@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from pyswip import Prolog
 from converter import AsaToPrologConverter, mySplit, genRandomName
@@ -36,9 +36,25 @@ async def plfilesDelete():
 
 @app.get('/get/plfiles/index')
 async def plfilesIndex():
-    files = glob.glob("plfiles/*")
+    path = "plfiles"
+    files = []
+    for filename in os.listdir(path):
+        if os.path.isfile(os.path.join(path,filename)):
+            files.append(filename)
     return {"status":"success","files":files}
 
+@app.get('/get/plfiles/detail')
+async def plfileDetail(path):
+    try:
+        texts = []
+        file = open("plfiles/"+path)
+        with file as f:
+            line = f.readlines()
+            texts += line
+        return{"status":"success", "texts":texts}
+
+    except:
+        raise HTTPException(status_code=500, detail="error")
 
 @app.post('/post/sentencesFile/save')
 async def setencesFileSave(file: UploadFile = File(...)):
