@@ -12,6 +12,7 @@ def search(pattern,define_query, prolog):
     file_name_list = [f for f in files if os.path.isfile(os.path.join(path, f))]
 
     for file_name in file_name_list:
+        answer = {"results":[], "sentences":[]}
         prolog.assertz(define_query)
         lines = open(path+file_name,"r").readlines()
         # prologインスタンスはシングルトンであるため，
@@ -19,8 +20,14 @@ def search(pattern,define_query, prolog):
         # なので動的読み込みで１文ずつ行う
         for line in lines:
             prolog.assertz(line.replace('\n','').replace('.',''))
-        answer = list(prolog.query(pattern))
         
+        results = list(prolog.query(pattern))
+
+        if len(results) > 0:
+            sentences = list(prolog.query("sentence(_sentence)"))
+            answer["results"] = results
+            answer["sentences"] = sentences
+
         prolog.retractall(pattern)
         prolog.retractall("sentence(_)")
         prolog.retractall("main(_,_)")
@@ -31,11 +38,6 @@ def search(pattern,define_query, prolog):
         prolog.retractall("semantic(_)")
 
         answers_list.append(answer)
-        
-        # if len(answer) > 0:
-        #     print("\033[31m", "一致しました", "\033[0m","-",answer,"\n")
-        # else:
-        #     print("\033[31m", "一致するものはありませんでした", "\033[0m","\n")
 
     end_time = time()
     return {"answers":answers_list, "time":end_time - start_time}
