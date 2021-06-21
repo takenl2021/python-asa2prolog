@@ -6,4 +6,9 @@ python_asa/
 README.html
 README.pdf
 CRF++-0.58
-uploads/*
+!/uploads/
+/uploads/*
+!/uploads/.gitkeep
+!/plfiles/
+/plfiles/*
+!/plfiles/.gitkeep
