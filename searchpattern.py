@@ -1,20 +1,19 @@
 from time import time
 import os
 from pyswip import Prolog
+import glob
 
 def search(pattern,define_query, prolog):
     answers_list = []
     start_time = time()
 
     # plfiles 以下のファイル内を検索
-    path ="plfiles/"
-    files = os.listdir(path)
-    file_name_list = [f for f in files if os.path.isfile(os.path.join(path, f))]
-
+    files = glob.glob("plfiles/*.pl")
+    file_name_list = [f for f in files if os.path.isfile(f)]
     for file_name in file_name_list:
         answer = {"results":[], "sentences":[]}
         prolog.assertz(define_query)
-        lines = open(path+file_name,"r").readlines()
+        lines = open(file_name,"r").readlines()
         # prologインスタンスはシングルトンであるため，
         # consultからの静的読み込みだと上書きされましたよっていう警告が出てくる．
         # なので動的読み込みで１文ずつ行う

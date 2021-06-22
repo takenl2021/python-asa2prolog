@@ -27,7 +27,7 @@ asa = ASA()
 @app.post('/post/plfiles/delete')
 async def plfilesDelete():
     try:
-        files = glob.glob("plfiles/*")
+        files = glob.glob("plfiles/*.pl")
         for file in files:
             os.remove(file)
         return {"status":"success"}
