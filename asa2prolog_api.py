@@ -38,9 +38,9 @@ async def plfilesDelete():
 async def plfilesIndex():
     path = "plfiles"
     files = []
-    for filename in os.listdir(path):
-        if os.path.isfile(os.path.join(path,filename)):
-            files.append(filename)
+    for filename in glob.glob("plfiles/*.pl"):
+        if os.path.isfile(filename):
+            files.append(filename.replace('plfiles/',''))
     return {"status":"success","files":files}
 
 @app.get('/get/plfiles/detail')
