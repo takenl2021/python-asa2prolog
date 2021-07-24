@@ -5,7 +5,6 @@ pip install -e .
 cd ../
 # pip
 pip install fastapi
-pip install pyswip
 pip install uvicorn
 pip install mecab-python3
 pip install python-multipart
