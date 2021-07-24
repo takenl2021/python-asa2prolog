@@ -12,3 +12,9 @@ CRF++-0.58
 !/plfiles/
 /plfiles/*
 !/plfiles/.gitkeep
+.vscode
+*.json
+prologpy/
+converter_test.py
+example.py
+mytest_simple.py
