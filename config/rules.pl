@@ -1,0 +1,3 @@
+名詞(SENTENCE_ID,_元の文,_名詞の表層):- pos(SENTENCE_ID,NODE_ID,名詞),surf(SENTENCE_ID,NODE_ID,_名詞の表層),surf(SENTENCE_ID,0,_元の文).
+文節(SENTENCE_ID,_文節の表層):- chunk(SENTENCE_ID,0,CHUNK_ID),surf(SENTENCE_ID,CHUNK_ID,_文節の表層).
+売るのを格sloc(SENTENCE_ID,_surf,_sloc):-surfBF(SENTENCE_ID,MORPH_ID,売る),morph(SENTENCE_ID,CHUNK_ID,MORPH_ID),dep(SENTENCE_ID,CHUNK_ID,DEP_ID),surf(SENTENCE_ID,DEP_ID,_surf),sloc(SENTENCE_ID,DEP_ID,_sloc),part(SENTENCE_ID,DEP_ID,を).
