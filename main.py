@@ -33,14 +33,16 @@ def main():
     '''
     result => {
       'predicates': prolog述語集合<string>,
-      'dot_string': DOT<string>
+      'dot_string': DOT<string>,
+      'asa_json': ASAの出力json<dict>
     }
     '''
     results = converter.convert_all()
     '''
     results => {
       'predicates': prolog述語集合<string>,
-      'dot_string': DOT<string>
+      'dot_string': DOT<string>,
+      'asa_json': ASAの出力json<dict>
     }[]
     '''
 

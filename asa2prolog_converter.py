@@ -256,7 +256,8 @@ class Converter():
         )
         return {
             'predicates': "\n".join(pred_list),
-            'dot_string': dg.source
+            'dot_string': dg.source,
+            'asa_json': json
         }
 
     def convert_all(self):

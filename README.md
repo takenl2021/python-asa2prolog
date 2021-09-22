@@ -19,8 +19,8 @@ ASAの解析結果をPrologの木構造に変換する
   | set_sentences() | 生テキストのセット | 引数１[string]: 生のテキスト | void |
   | load_sentences() | ファイルからテキストのロード | 引数１[string]: ファイルパス | void |
   | get_sentences() | セットされているテキストリスト取得 | None | string[] |
-  | convert() | 一文をコンバート | 引数１[string]: 生のテキスト | { 'predicates': string(一文に対するProlog述語), 'dot_string': string(DOT) } |
-  | convert_all() | ロードされている全文をコンバート | None | { 'predicates': string(一文に対するProlog述語), 'dot_string': string(DOT) }[] |
+  | convert() | 一文をコンバート | 引数１[string]: 生のテキスト | { 'predicates': string(一文に対するProlog述語), 'dot_string': string(DOT), 'asa_json': dict(ASAの出力JSON) } |
+  | convert_all() | ロードされている全文をコンバート | None | { 'predicates': string(一文に対するProlog述語), 'dot_string': string(DOT), 'asa_json': dict(ASAの出力JSON) }[] |
 
 
 ## 対応述語
