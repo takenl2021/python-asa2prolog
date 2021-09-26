@@ -3,17 +3,31 @@
 ASAの解析結果をPrologの木構造に変換する
 
 
-## 環境構築(WIP)
-取り急ぎ必要な環境をまとめておきます。後ほど修正。
-- python >=3.6.8
-- Mecab && Cabocha
-- Graphviz
-- numpy
-- regex
-- 必要物のインストール
-  - ```$ pip install -r requirements.txt```
+## 環境構築
+### (1)前準備
+以下事前インストールが必要。
+- [Python](https://www.python.org/) >=3.6.8
+- [Mecab](https://taku910.github.io/mecab/)
+- [Cabocha](https://taku910.github.io/cabocha/)
+- [Graphviz](https://graphviz.org/download/)
+- [python_asa](https://github.com/takenl2021/python_asa)
+  - パッケージの依存関係に含めたいが、不具合のため暫定対応
 
-## asa2prolog_converter.Converter
+### (2)asa2prolog
+以下コマンドでasa2prologが使用可能。
+
+`$ pip install -e git+https://github.com/takenl2021/python-asa2prolog`
+
+下記依存関係(`setup.py`に記載)も自動でインストールされる。
+- mecab-python3
+- cabocha-python
+
+依存関係として、[python_asa](https://github.com/takenl2021/python_asa)も必要となるが、**setup.py経由でインストールするとフォルダの一部が消滅する不具合**を確認したため、別途インストールとする(暫定)。
+
+### (3)requirements.txt
+`requirements.txt`はあくまでも、`main.py`で例を確認するために必要な依存関係であることに注意する。asa2prologパッケージの依存関係自体は上記の通り`setup.py`に記述している。
+
+## asa2prolog.converter.Converter
 以下、コンバータのインターフェース
   | メソッド | 説明 | 引数 | 戻り値 |
   |----------------|-----------|-------------|---|

@@ -1,0 +1,9 @@
+README.md
+setup.py
+asa2prolog/__init__.py
+asa2prolog/converter.py
+asa2prolog.egg-info/PKG-INFO
+asa2prolog.egg-info/SOURCES.txt
+asa2prolog.egg-info/dependency_links.txt
+asa2prolog.egg-info/requires.txt
+asa2prolog.egg-info/top_level.txt

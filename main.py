@@ -1,7 +1,8 @@
-from asa2prolog_converter import Converter
+from asa2prolog.converter import Converter
 from asapy.ASA import ASA
 from prologpy.solver import Solver
 import numpy as np
+
 
 def main():
     # 1. ASAとコンバータのインスタンス化
@@ -49,7 +50,7 @@ def main():
     predicates = "\n".join([result['predicates'] for result in results])
 
     # 5. prolog定義済みruleをロード
-    rule_file_path = "./config/rules.pl"
+    rule_file_path = "config/rules.pl"
     with open(rule_file_path, "r") as f:
         rule_txt = f.read()
 

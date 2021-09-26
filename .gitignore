@@ -1,12 +1,5 @@
 __pycache__
-pyswip/
-*.pl
-python_asa/
 !/config/*
 .vscode
-prologpy/
-python_prolog_interpreter/
-.pdf
-.html
-.cache/
 src/
+python_asa/
