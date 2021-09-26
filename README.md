@@ -13,19 +13,22 @@ ASAの解析結果をPrologの木構造に変換する
 - [python_asa](https://github.com/takenl2021/python_asa)
   - パッケージの依存関係に含めたいが、不具合のため暫定対応
 
+
 ### (2)asa2prolog
 以下コマンドでasa2prologが使用可能。
 
 `$ pip install -e git+https://github.com/takenl2021/python-asa2prolog`
 
-下記依存関係(`setup.py`に記載)も自動でインストールされる。
+下記依存関係(`setup.py`に記載)も自動でインストールされる。これらは**本来[python_asa](https://github.com/takenl2021/python_asa)の依存関係であるため修正が必要**。
 - mecab-python3
 - cabocha-python
 
 依存関係として、[python_asa](https://github.com/takenl2021/python_asa)も必要となるが、**setup.py経由でインストールするとフォルダの一部が消滅する不具合**を確認したため、別途インストールとする(暫定)。
 
+
 ### (3)requirements.txt
 `requirements.txt`はあくまでも、`main.py`で例を確認するために必要な依存関係であることに注意する。asa2prologパッケージの依存関係自体は上記の通り`setup.py`に記述している。
+
 
 ## asa2prolog.converter.Converter
 以下、コンバータのインターフェース
