@@ -19,10 +19,12 @@ ASAの解析結果をPrologの木構造に変換する
 
 `$ pip install -e git+https://github.com/takenl2021/python-asa2prolog`
 
-下記依存関係(`setup.py`に記載)も自動でインストールされる。これらは**本来[python_asa](https://github.com/takenl2021/python_asa)の依存関係であるため修正が必要**。
+下記依存関係(`setup.py`に記載)も自動でインストールされる。
 - mecab-python3
 - cabocha-python
 - graphviz
+
+`mecab-python3`及び`cabocha-python`は**本来[python_asa](https://github.com/takenl2021/python_asa)の依存関係であるため修正が必要**。
 
 依存関係として、[python_asa](https://github.com/takenl2021/python_asa)も必要となるが、**setup.py経由でインストールするとフォルダの一部が消滅する不具合**を確認したため、別途インストールとする(暫定)。
 
