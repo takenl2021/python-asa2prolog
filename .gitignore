@@ -8,3 +8,5 @@ prologpy/
 python_prolog_interpreter/
 .pdf
 .html
+.cache/
+src/

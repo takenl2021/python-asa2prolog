@@ -1,7 +1,7 @@
 import io
 import sys
 import re
-from python_asa.asapy.ASA import ASA
+from asapy.ASA import ASA
 from graphviz import Digraph
 import random
 import string

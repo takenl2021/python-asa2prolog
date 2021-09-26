@@ -12,7 +12,6 @@ ASAの解析結果をPrologの木構造に変換する
 - regex
 - 必要物のインストール
   - ```$ pip install -r requirements.txt```
-  - ```$ git clone https://github.com/takenl2021/python_prolog_interpreter.git```
 
 ## asa2prolog_converter.Converter
 以下、コンバータのインターフェース

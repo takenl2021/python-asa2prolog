@@ -1,6 +1,6 @@
 from asa2prolog_converter import Converter
-from python_asa.asapy.ASA import ASA
-from python_prolog_interpreter.prologpy.solver import Solver
+from asapy.ASA import ASA
+from prologpy.solver import Solver
 import numpy as np
 
 def main():
