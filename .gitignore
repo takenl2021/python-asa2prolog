@@ -5,3 +5,6 @@ python_asa/
 !/config/*
 .vscode
 prologpy/
+python_prolog_interpreter/
+.pdf
+.html

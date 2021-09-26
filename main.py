@@ -1,8 +1,7 @@
 from asa2prolog_converter import Converter
 from python_asa.asapy.ASA import ASA
-from prologpy import Solver
+from python_prolog_interpreter.prologpy.solver import Solver
 import numpy as np
-
 
 def main():
     # 1. ASAとコンバータのインスタンス化

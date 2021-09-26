@@ -8,9 +8,9 @@ ASAの解析結果をPrologの木構造に変換する
 - python >=3.6.8
 - Mecab && Cabocha
 - Graphviz
-- prologpy(竹内研ver)をglobalなりlocalなりimport出来る位置へ
-- requirementsのインストール ```$ pip install -r requirements.txt```
-
+- 必要物のインストール 
+  - ```$ pip install -r requirements.txt```
+  - ```$ git clone https://github.com/takenl2021/python_prolog_interpreter.git```
 
 ## asa2prolog_converter.Converter
 以下、コンバータのインターフェース

@@ -2,14 +2,11 @@ import io
 import sys
 import re
 from python_asa.asapy.ASA import ASA
-from prologpy import Solver
 from graphviz import Digraph
 import random
 import string
 
 asa = ASA()
-
-
 class Converter():
     def __init__(self, asa_instance):
         self.__sentences = None
