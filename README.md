@@ -9,7 +9,8 @@ ASAの解析結果をPrologの木構造に変換する
 - Mecab && Cabocha
 - Graphviz
 - numpy
-- 必要物のインストール 
+- regex
+- 必要物のインストール
   - ```$ pip install -r requirements.txt```
   - ```$ git clone https://github.com/takenl2021/python_prolog_interpreter.git```
 

@@ -3,3 +3,4 @@ cabocha-python
 git+https://github.com/takenl2021/python_asa
 graphviz
 numpy
+regex
