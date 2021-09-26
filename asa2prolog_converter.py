@@ -6,7 +6,7 @@ from graphviz import Digraph
 import random
 import string
 
-asa = ASA()
+
 class Converter():
     def __init__(self, asa_instance):
         self.__sentences = None
