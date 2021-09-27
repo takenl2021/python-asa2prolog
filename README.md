@@ -2,6 +2,8 @@
 ## Description
 ASAの解析結果をPrologの木構造に変換する
 
+## Contribution
+必ずPR投げてください。
 
 ## 環境構築
 ### (1)前準備
@@ -17,7 +19,7 @@ ASAの解析結果をPrologの木構造に変換する
 ### (2)asa2prolog
 以下コマンドでasa2prologが使用可能。
 
-`$ pip install -e git+https://github.com/takenl2021/python-asa2prolog`
+`$ pip install -e git+https://github.com/takenl2021/python-asa2prolog#egg=asa2prolog`
 
 下記依存関係(`setup.py`に記載)も自動でインストールされる。
 - mecab-python3
