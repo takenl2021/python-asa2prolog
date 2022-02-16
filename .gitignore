@@ -3,3 +3,4 @@ __pycache__
 .vscode
 src/
 python_asa/
+.DS_Store

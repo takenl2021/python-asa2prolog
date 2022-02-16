@@ -1,3 +1,0 @@
--e .
--e git+https://github.com/takenl2021/python_prolog_interpreter#egg=prologpy
-numpy

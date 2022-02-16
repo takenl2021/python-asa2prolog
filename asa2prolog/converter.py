@@ -167,6 +167,7 @@ class Converter():
         return shaped_json
 
     def __gen_prolog_pred(self, pred_name, params):
+        params = list(map(str,params))
         if pred_name == "sloc":
             params = [params[0],params[1],f"'{params[2]}'"]
         pred = f'{pred_name}({",".join(params)}).'
