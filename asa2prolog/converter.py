@@ -5,6 +5,7 @@ from asapy.ASA import ASA
 from graphviz import Digraph
 import random
 import string
+from pprint import pprint
 
 
 class Converter():
@@ -88,7 +89,7 @@ class Converter():
                 for role in semroles.split("|"):
                     if role != "":
                         shaped_chunk["children"].append({
-                            'node_id': role,
+                            'node_id': role.replace("-","ー").replace("（","「").replace("）","」"),
                             'pred_name': "role"
                         })
 
@@ -97,7 +98,7 @@ class Converter():
                 for semantic in semantics.split("-"):
                     if semantic != "":
                         shaped_chunk["children"].append({
-                            'node_id': semantic,
+                            'node_id': semantic.replace("-","ー").replace("（","「").replace("）","」"),
                             'pred_name': "semantic"
                         })
 
@@ -166,7 +167,9 @@ class Converter():
         return shaped_json
 
     def __gen_prolog_pred(self, pred_name, params):
-        pred = f'{pred_name}({",".join(list(map(str, params)))}).'
+        if pred_name == "sloc":
+            params = [params[0],params[1],f"'{params[2]}'"]
+        pred = f'{pred_name}({",".join(params)}).'
         return pred
 
     def __parse_node(self, sentence_id, current_node, parent_node_id=None):
@@ -229,35 +232,38 @@ class Converter():
                 dg.edge(dg_id, child_dg_id, label=edge_label)
                 self.__parse_node_dot(child, dg, child_dg_id)
 
-    def convert(self, sentence, sentence_id=0):
+    def convert(self, sentence, sentence_id=0, graphnize=False):
         sentence_info = self.analyze_sentence(sentence)
         json = sentence_info["asa_json"]
         shaped_json = sentence_info["shaped_json"]
-        dg = Digraph(
-            engine='dot',
-            format='png',
-            name=f"{sentence}",
-            node_attr={
-                'height': '1'
-            },
-            graph_attr={
-                'size': '500, 500',
-                'ranksep': "2.5"
-            }
-        )
-        self.__parse_node_dot(shaped_json, dg, start=True)
         pred_list = self.__parse_node(
             sentence_id=sentence_id,
             current_node=shaped_json,
             parent_node_id=None
         )
-        return {
+        result = {
             'predicates': "\n".join(pred_list),
-            'dot_string': dg.source,
             'asa_json': json
         }
+        if graphnize: # グラフ化オプションを指定した場合
+            dg = Digraph(
+                engine='dot',
+                format='png',
+                name=f"{sentence}",
+                node_attr={
+                    'height': '1'
+                },
+                graph_attr={
+                    'size': '500, 500',
+                    'ranksep': "2.5"
+                }
+            )
+            self.__parse_node_dot(shaped_json, dg, start=True)
+            result['dot_string'] = dg.source
 
-    def convert_all(self):
+        return result
+
+    def convert_all(self, graphnize=False):
         if(self.__sentences == None):
             print(
                 f"\033[31mConvert Error\033[0m: Make sure to set some sentences before conversion.")
@@ -267,7 +273,7 @@ class Converter():
             for sentence in self.__sentences:
                 if sentence == "" or sentence == " " or sentence == "　":
                     continue
-                result = self.convert(sentence, sentence_id)
+                result = self.convert(sentence, sentence_id, graphnize)
                 results.append(result)
                 sentence_id += 1
             return results
