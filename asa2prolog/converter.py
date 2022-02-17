@@ -89,7 +89,7 @@ class Converter():
                 for role in semroles.split("|"):
                     if role != "":
                         shaped_chunk["children"].append({
-                            'node_id': role.replace("-","ー").replace("（","「").replace("）","」"),
+                            'node_id': role.replace("-","ー").replace("（","、").replace("）","、").replace("、、","、"),
                             'pred_name': "role"
                         })
 
@@ -98,7 +98,7 @@ class Converter():
                 for semantic in semantics.split("-"):
                     if semantic != "":
                         shaped_chunk["children"].append({
-                            'node_id': semantic.replace("-","ー").replace("（","「").replace("）","」"),
+                            'node_id': semantic.replace("-","ー").replace("（","、").replace("）","、").replace("、、","、"),
                             'pred_name': "semantic"
                         })
 
