@@ -22,7 +22,7 @@ class Converter():
     def set_sentences(self, sentences):
         try:
             self.__sentences = re.split(
-                '[\.\!\?\。\！\？\「\」\．]', sentences.replace('\n', ''))
+                '[\.\!\?\。\！\？\「\」\．]', sentences.replace('\n', '').replace('、', ''))
         except:
             print(f"\033[31mError\033[0m: Couldn't set sentences.")
 
@@ -89,7 +89,7 @@ class Converter():
                 for role in semroles.split("|"):
                     if role != "":
                         shaped_chunk["children"].append({
-                            'node_id': role.replace("-","ー").replace("（","、").replace("）","、").replace("、、","、"),
+                            'node_id': role.replace("-","").replace("（","").replace("）",""),
                             'pred_name': "role"
                         })
 
@@ -98,7 +98,7 @@ class Converter():
                 for semantic in semantics.split("-"):
                     if semantic != "":
                         shaped_chunk["children"].append({
-                            'node_id': semantic.replace("-","ー").replace("（","、").replace("）","、").replace("、、","、"),
+                            'node_id': semantic.replace("-","").replace("（","").replace("）",""),
                             'pred_name': "semantic"
                         })
 
