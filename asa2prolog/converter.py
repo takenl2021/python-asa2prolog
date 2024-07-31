@@ -18,11 +18,13 @@ class Converter():
                 raise ValueError("Invalid ASA instance.")
         except ValueError as e:
             print(e)
-
+            
+    #変更箇所(1.0.3から)
     def set_sentences(self, sentences):
         try:
-            self.__sentences = re.split(
-                '[\.\!\?\。\！\？\「\」\．]', sentences.replace('\n', '').replace('、', ''))
+            #self.__sentences = re.split(
+            #    '[\.\!\?\。\！\？\「\」\．]', sentences.replace('\n', '').replace('、', ''))
+            self.__sentences = re.split('\n', sentences) #改行で文を分割
         except:
             print(f"\033[31mError\033[0m: Couldn't set sentences.")
 
@@ -165,11 +167,18 @@ class Converter():
             # ______END______(2)chunkレベル_____
         # ______END______(1)sentenceレベル_____
         return shaped_json
-
+    
+    #変更箇所(1.0.3から)
     def __gen_prolog_pred(self, pred_name, params):
         params = list(map(str,params))
+
+        not_node_num_list=["main","part","role","semantic","surf","surfBF","pos"] #　第3引数がノード番号でないもの
         if pred_name == "sloc":
             params = [params[0],params[1],f"'{params[2]}'"]
+
+        elif pred_name  in not_node_num_list:
+            params = [params[0],params[1],f"'{params[2]}'"]  #　ノード番号のない第3引数引数に二重引用符をつける
+
         pred = f'{pred_name}({",".join(params)}).'
         return pred
 
