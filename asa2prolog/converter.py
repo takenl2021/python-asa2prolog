@@ -24,7 +24,8 @@ class Converter():
         try:
             #self.__sentences = re.split(
             #    '[\.\!\?\。\！\？\「\」\．]', sentences.replace('\n', '').replace('、', ''))
-            self.__sentences = re.split('\n', sentences) #改行で文を分割
+            #self.__sentences = re.split('\n', sentences) #改行で文を分割
+            self.__sentences = re.findall(r'.+?[。\n？]|.+', sentences) #[.,?,\n]で分割し,[.,?]は残す
         except:
             print(f"\033[31mError\033[0m: Couldn't set sentences.")
 
@@ -209,37 +210,39 @@ class Converter():
             for child in children:
                 child_surf = child.get('node_id')
                 edge_label = child.get('pred_name')
+
+                # すべてのラベルで30文字以上の場合に改行を適用
+                formatted_label = str(child_surf)
+                if len(formatted_label) > 30:
+                    formatted_label = "\n".join([formatted_label[i:i+30] for i in range(0, len(formatted_label), 30)])
+
+                # ノードの描画（ラベルに改行を反映）
                 child_dg_id = gen_random_name(16)
                 if edge_label == 'sloc':  # slocはひし形ノード
-                    dg.node(child_dg_id, str(child_surf),
-                            shape='diamond', style='filled', color='yellow')
+                    dg.node(child_dg_id, formatted_label, shape='diamond', style='filled', color='yellow')
                 elif edge_label == 'surf':  # surfは水色塗りつぶし
-                    dg.node(child_dg_id, str(child_surf), shape="box",
-                            style='filled', color='lightblue2')
+                    dg.node(child_dg_id, formatted_label, shape="box", style='filled', color='lightblue2')
                 elif edge_label == 'surfBF':  # surfBFは水色太枠
-                    dg.node(child_dg_id, str(child_surf), shape="box",
-                            style='bold', color='lightblue2')
+                    dg.node(child_dg_id, formatted_label, shape="box", style='bold', color='lightblue2')
                 elif edge_label == 'pos':  # posはオレンジ太線
-                    dg.node(child_dg_id, str(child_surf),
-                            style='bold', color='orange')
+                    dg.node(child_dg_id, formatted_label, style='bold', color='orange')
                 elif edge_label in ['chunk', 'morph']:  # chunk/morphは青太枠
-                    dg.node(child_dg_id, str(child_surf),
-                            style='bold', color='blue')
+                    dg.node(child_dg_id, formatted_label, style='bold', color='blue')
                 elif edge_label == 'role':
-                    dg.node(child_dg_id, str(child_surf), shape="doubleoctagon",
-                            style="bold", color="blue", fontcolor="blue", fontstyle="bold")
+                    dg.node(child_dg_id, formatted_label, shape="doubleoctagon", style="bold", color="blue", fontcolor="blue", fontstyle="bold")
                 elif edge_label == 'semantic':
-                    dg.node(child_dg_id, str(child_surf), shape="tripleoctagon",
-                            style="filled", color="navy", fontcolor="white", fontstyle="bold")
+                    dg.node(child_dg_id, formatted_label, shape="tripleoctagon", style="filled", color="navy", fontcolor="white", fontstyle="bold")
                 elif edge_label == 'main':
-                    dg.node(child_dg_id, str(child_surf), style='filled',
-                            color="pink", fontstyle='bold')
+                    dg.node(child_dg_id, formatted_label, style='filled', color="pink", fontstyle='bold')
                 elif edge_label == 'part':
-                    dg.node(child_dg_id, str(child_surf),
-                            style='bold', color="pink")
+                    dg.node(child_dg_id, formatted_label, style='bold', color="pink")
                 else:
-                    dg.node(child_dg_id, str(child_surf))
+                    dg.node(child_dg_id, formatted_label)
+
+                # エッジの描画
                 dg.edge(dg_id, child_dg_id, label=edge_label)
+
+                # 再帰的に子ノードを処理
                 self.__parse_node_dot(child, dg, child_dg_id)
 
     def convert(self, sentence, sentence_id=0, graphnize=False):
