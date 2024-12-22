@@ -213,8 +213,8 @@ class Converter():
 
                 # すべてのラベルで30文字以上の場合に改行を適用
                 formatted_label = str(child_surf)
-                if len(formatted_label) > 30:
-                    formatted_label = "\n".join([formatted_label[i:i+30] for i in range(0, len(formatted_label), 30)])
+                if len(formatted_label) > 50:
+                    formatted_label = "\n".join([formatted_label[i:i+50] for i in range(0, len(formatted_label), 50)])
 
                 # ノードの描画（ラベルに改行を反映）
                 child_dg_id = gen_random_name(16)
